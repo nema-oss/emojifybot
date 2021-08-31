@@ -1743,16 +1743,22 @@ def start(update: Update, context: CallbackContext) -> None:
 
 def emojify(update: Update, context: CallbackContext) -> None:
     list = update.message.text.split()
-
+    print(list)
     #look up each word in dict and add the corresponding emoji
     msg = ""
+
     for elem in list:
         msg+=elem
+        results = []
         for key in map:
-            if elem in key:
-                randomIndex = random.randint(0, len(map[key]) -1)
-                msg += map[key][randomIndex]
-            break
+            if elem.lower() in key.lower():
+                results.append(key)
+        if len(results)>0:
+            result = results[random.randint(0, len(results) - 1)]
+            randomIndex = random.randint(0, len(map[result]) -1)
+            print("found: " + elem)
+            msg += map[result][randomIndex]
+
         msg += " "
     update.message.reply_text(msg)
 
